@@ -1,4 +1,4 @@
-// script.js - ملف الجافاسكريبت الرئيسي
+// script.js - ملف الجافاسكريبت الرئيسي - الإصدار الفني الإغريقي
 
 // نظام الترجمة المحسّن والمصحح
 const translations = {
@@ -192,39 +192,41 @@ const translations = {
 
 // تهيئة الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    // تهيئة تأثير الجزيئات المتحركة
-    particlesJS("particles-js", {
-        particles: {
-            number: { value: 90, density: { enable: true, value_area: 1000 } },
-            color: { value: "#9C27B0" },
-            shape: { type: "circle" },
-            opacity: { value: 0.6, random: true },
-            size: { value: 4, random: true },
-            line_linked: {
-                enable: true,
-                distance: 180,
-                color: "#9C27B0",
-                opacity: 0.3,
-                width: 1.5
+    // تهيئة تأثير الجزيئات المتحركة باللونين الأسود والرمادي
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 1000 } },
+                color: { value: "#3A3A3A" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#8B7355",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
             },
-            move: {
-                enable: true,
-                speed: 2.5,
-                direction: "none",
-                random: true,
-                straight: false,
-                out_mode: "out",
-                bounce: false
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                }
             }
-        },
-        interactivity: {
-            detect_on: "canvas",
-            events: {
-                onhover: { enable: true, mode: "repulse" },
-                onclick: { enable: true, mode: "push" }
-            }
-        }
-    });
+        });
+    }
     
     // تهيئة متغيرات التنقل
     let currentLang = 'ar';
@@ -247,7 +249,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.lang = lang;
         
         // تغيير الخط حسب اللغة
-        document.body.style.fontFamily = lang === 'ar' ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
+        if (lang === 'ar') {
+            document.body.style.fontFamily = "'Almarai', serif";
+            document.querySelectorAll('.hero h1, .sections-title, .card-title, .profile-info h1, h1').forEach(el => {
+                el.style.fontFamily = "'Almarai', serif";
+            });
+        } else {
+            document.body.style.fontFamily = "'Cormorant Garamond', serif";
+            document.querySelectorAll('.hero h1, .sections-title, .card-title, .profile-info h1, h1').forEach(el => {
+                el.style.fontFamily = "'Cormorant Garamond', serif";
+            });
+        }
         
         // تحديث النصوص
         const elements = document.querySelectorAll('[data-key]');
@@ -342,6 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // إغلاق القائمة على الأجهزة المحمولة
         if (window.innerWidth <= 768) {
             document.getElementById('navContainer').classList.remove('active');
+            document.getElementById('menuToggle').innerHTML = '<i class="fas fa-bars"></i>';
         }
         
         // تفعيل تأثير شريط المهارات إذا كانت الصفحة هي المهارات
@@ -379,11 +392,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menuToggle');
     const navContainer = document.getElementById('navContainer');
     
-    menuToggle.addEventListener('click', function() {
-        navContainer.classList.toggle('active');
-        this.innerHTML = navContainer.classList.contains('active') ? 
-            '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-    });
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            navContainer.classList.toggle('active');
+            this.innerHTML = navContainer.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+    }
     
     // التنقل عبر روابط القائمة
     navLinksElements.forEach(link => {
@@ -423,8 +438,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // أزرار التنقل بين الصفحات
-    prevPageBtn.addEventListener('click', goToPreviousPage);
-    nextPageBtn.addEventListener('click', goToNextPage);
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', goToPreviousPage);
+    }
+    
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', goToNextPage);
+    }
     
     // تأثير شريط المهارات
     const skillProgressElements = document.querySelectorAll('.skill-progress');
@@ -449,59 +469,62 @@ document.addEventListener('DOMContentLoaded', function() {
     // إرسال نموذج الاتصال
     const contactForm = document.getElementById('contactForm');
     
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // رسالة نجاح
-        const message = currentLang === 'ar' 
-            ? 'شكراً لك على رسالتك! سأعود إليك في أقرب وقت ممكن.' 
-            : 'Thank you for your message! I will get back to you as soon as possible.';
-        
-        // إنشاء إشعار
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 9999;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transform: translateX(150%);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        `;
-        
-        notification.innerHTML = `
-            <i class="fas fa-check-circle" style="font-size: 24px;"></i>
-            <span>${message}</span>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // عرض الإشعار
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 10);
-        
-        // إخفاء الإشعار بعد 5 ثواني
-        setTimeout(() => {
-            notification.style.transform = 'translateX(150%)';
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // رسالة نجاح
+            const message = currentLang === 'ar' 
+                ? 'شكراً لك على رسالتك! سأعود إليك في أقرب وقت ممكن.' 
+                : 'Thank you for your message! I will get back to you as soon as possible.';
+            
+            // إنشاء إشعار
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #1A1A1A, #3A3A3A);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                z-index: 9999;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                transform: translateX(150%);
+                transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                border-left: 4px solid #8B7355;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 24px; color: #8B7355;"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // عرض الإشعار
             setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 500);
-        }, 5000);
-        
-        // إعادة تعيين النموذج
-        contactForm.reset();
-    });
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // إخفاء الإشعار بعد 5 ثواني
+            setTimeout(() => {
+                notification.style.transform = 'translateX(150%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 5000);
+            
+            // إعادة تعيين النموذج
+            contactForm.reset();
+        });
+    }
     
     // إضافة تأثيرات للبطاقات عند التمرير
     const cards = document.querySelectorAll('.card, .project-card, .summary-card, .skill-category, .contact-item');
@@ -533,10 +556,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageToggle = document.getElementById('languageToggle');
     const languageMenu = document.getElementById('languageMenu');
     
-    languageToggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        languageMenu.classList.toggle('active');
-    });
+    if (languageToggle) {
+        languageToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            languageMenu.classList.toggle('active');
+        });
+    }
     
     // اختيار لغة من القائمة
     document.querySelectorAll('#languageMenu button').forEach(btn => {
@@ -549,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // إغلاق القائمة عند النقر خارجها
     document.addEventListener('click', function(e) {
-        if (!languageToggle.contains(e.target) && !languageMenu.contains(e.target)) {
+        if (languageToggle && languageMenu && !languageToggle.contains(e.target) && !languageMenu.contains(e.target)) {
             languageMenu.classList.remove('active');
         }
     });
@@ -572,10 +597,16 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('keydown', function(e) {
     // سهم لليسار أو أعلى للصفحة السابقة
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        document.getElementById('prevPage').click();
+        const prevBtn = document.getElementById('prevPage');
+        if (prevBtn && !prevBtn.disabled) {
+            prevBtn.click();
+        }
     }
     // سهم لليمين أو أسفل للصفحة التالية
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        document.getElementById('nextPage').click();
+        const nextBtn = document.getElementById('nextPage');
+        if (nextBtn && !nextBtn.disabled) {
+            nextBtn.click();
+        }
     }
 });
