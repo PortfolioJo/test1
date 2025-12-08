@@ -1,4 +1,4 @@
-// script.js - ملف الجافاسكريبت الرئيسي - الإصدار الفني الفاخر
+// script.js - ملف الجافاسكريبت الرئيسي - الإصدار المعدل
 
 // نظام الترجمة المحسّن والمصحح
 const translations = {
@@ -34,7 +34,7 @@ const translations = {
         contactNow: "تواصل الآن",
         
         // صفحة الملف الشخصي
-        profileName: "أسيل أحمد",
+        profileName: "أسيل",
         profileTitle: "مصممة جرافيكية ومطورة هويات بصرية",
         profileDescription: "أنا مصممة جرافيكية محترفة مع سنوات من الخبرة في إنشاء هويات بصرية متميزة وتصاميم إبداعية مبتكرة. أعمل على تحويل الأفكار المجردة إلى واقع بصري جذاب عبر استخدام أحدث أدوات التصميم والبرمجيات الاحترافية.",
         experienceTitle: "الخبرة المهنية",
@@ -127,7 +127,7 @@ const translations = {
         contactNow: "Contact Now",
         
         // Profile Page
-        profileName: "Aseel Ahmed",
+        profileName: "Aseel",
         profileTitle: "Graphic Designer & Visual Identity Developer",
         profileDescription: "I am a professional graphic designer with years of experience in creating distinctive visual identities and innovative creative designs. I work on transforming abstract ideas into attractive visual reality using the latest design tools and professional software.",
         experienceTitle: "Professional Experience",
@@ -196,21 +196,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof particlesJS !== 'undefined') {
         particlesJS("particles-js", {
             particles: {
-                number: { value: 90, density: { enable: true, value_area: 1200 } },
+                number: { value: 80, density: { enable: true, value_area: 1000 } },
                 color: { value: "#2A2A2A" },
                 shape: { type: "circle" },
-                opacity: { value: 0.6, random: true },
-                size: { value: 4, random: true },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
                 line_linked: {
                     enable: true,
-                    distance: 180,
+                    distance: 150,
                     color: "#B8860B",
-                    opacity: 0.3,
-                    width: 1.5
+                    opacity: 0.2,
+                    width: 1
                 },
                 move: {
                     enable: true,
-                    speed: 2.5,
+                    speed: 2,
                     direction: "none",
                     random: true,
                     straight: false,
@@ -231,14 +231,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // تهيئة متغيرات التنقل
     let currentLang = 'ar';
     let currentPage = 'home';
-    let pageHistory = ['home'];
-    let historyIndex = 0;
     
     // عناصر الصفحات
     const pages = document.querySelectorAll('.page');
     const navLinksElements = document.querySelectorAll('.nav-link');
-    const prevPageBtn = document.getElementById('prevPage');
-    const nextPageBtn = document.getElementById('nextPage');
     
     // وظيفة تغيير اللغة
     function changeLanguage(lang) {
@@ -299,24 +295,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // تحديث اتجاه الأزرار
-        document.querySelectorAll('.nav-btn i').forEach(icon => {
+        // تحديث اتجاه زر العودة
+        document.querySelectorAll('.back-btn i').forEach(icon => {
             if (lang === 'ar') {
-                icon.className = icon.className.replace('fa-arrow-left', 'fa-arrow-right');
-                icon.className = icon.className.replace('fa-arrow-right', 'fa-arrow-left');
-                document.getElementById('prevPage').innerHTML = '<i class="fas fa-arrow-right"></i>';
-                document.getElementById('nextPage').innerHTML = '<i class="fas fa-arrow-left"></i>';
+                icon.className = 'fas fa-arrow-right';
             } else {
-                icon.className = icon.className.replace('fa-arrow-right', 'fa-arrow-left');
-                icon.className = icon.className.replace('fa-arrow-left', 'fa-arrow-right');
-                document.getElementById('prevPage').innerHTML = '<i class="fas fa-arrow-left"></i>';
-                document.getElementById('nextPage').innerHTML = '<i class="fas fa-arrow-right"></i>';
+                icon.className = 'fas fa-arrow-left';
             }
         });
     }
     
     // وظيفة تغيير الصفحة
-    function changePage(pageId, addToHistory = true) {
+    function changePage(pageId) {
         if (pageId === currentPage) return;
         
         // إخفاء جميع الصفحات
@@ -334,19 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // إضافة النشاط للرابط المحدد
         document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
-        
-        // تحديث السجل إذا طُلب
-        if (addToHistory) {
-            // إزالة الصفحات بعد المؤشر الحالي
-            pageHistory = pageHistory.slice(0, historyIndex + 1);
-            
-            // إضافة الصفحة الجديدة
-            pageHistory.push(pageId);
-            historyIndex = pageHistory.length - 1;
-        }
-        
-        // تحديث حالة أزرار التنقل
-        updateNavButtons();
         
         // تحديث المتغير الحالي
         currentPage = pageId;
@@ -369,28 +346,6 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
-    // وظيفة تحديث أزرار التنقل
-    function updateNavButtons() {
-        prevPageBtn.disabled = historyIndex <= 0;
-        nextPageBtn.disabled = historyIndex >= pageHistory.length - 1;
-    }
-    
-    // وظيفة الانتقال للصفحة السابقة
-    function goToPreviousPage() {
-        if (historyIndex > 0) {
-            historyIndex--;
-            changePage(pageHistory[historyIndex], false);
-        }
-    }
-    
-    // وظيفة الانتقال للصفحة التالية
-    function goToNextPage() {
-        if (historyIndex < pageHistory.length - 1) {
-            historyIndex++;
-            changePage(pageHistory[historyIndex], false);
-        }
-    }
-    
     // تبديل القائمة على الأجهزة المحمولة
     const menuToggle = document.getElementById('menuToggle');
     const navContainer = document.getElementById('navContainer');
@@ -411,6 +366,15 @@ document.addEventListener('DOMContentLoaded', function() {
             changePage(pageId);
         });
     });
+    
+    // التنقل عبر الشعار
+    const logo = document.querySelector('.logo');
+    if (logo) {
+        logo.addEventListener('click', function(e) {
+            e.preventDefault();
+            changePage('home');
+        });
+    }
     
     // التنقل عبر بطاقات الملخص
     const summaryCards = document.querySelectorAll('.summary-card');
@@ -440,6 +404,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // التنقل عبر زر العودة للرئيسية
+    document.querySelectorAll('.back-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            changePage(pageId);
+        });
+    });
+    
     // التنقل عبر روابط التذييل
     document.querySelectorAll('footer a[data-page]').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -448,15 +421,6 @@ document.addEventListener('DOMContentLoaded', function() {
             changePage(pageId);
         });
     });
-    
-    // أزرار التنقل بين الصفحات
-    if (prevPageBtn) {
-        prevPageBtn.addEventListener('click', goToPreviousPage);
-    }
-    
-    if (nextPageBtn) {
-        nextPageBtn.addEventListener('click', goToNextPage);
-    }
     
     // تأثير شريط المهارات
     const skillProgressElements = document.querySelectorAll('.skill-progress');
@@ -498,24 +462,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 right: 20px;
                 background: linear-gradient(135deg, #0A0A0A, #2A2A2A);
                 color: white;
-                padding: 25px 35px;
-                border-radius: 15px;
+                padding: 20px 30px;
+                border-radius: 12px;
                 box-shadow: 0 15px 35px rgba(0,0,0,0.3);
                 z-index: 9999;
                 font-weight: 700;
                 display: flex;
                 align-items: center;
-                gap: 20px;
+                gap: 15px;
                 transform: translateX(150%);
                 transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                border-left: 5px solid #B8860B;
+                border-left: 4px solid #B8860B;
                 backdrop-filter: blur(10px);
                 border: 1px solid rgba(255, 255, 255, 0.1);
             `;
             
             notification.innerHTML = `
-                <i class="fas fa-check-circle" style="font-size: 28px; color: #B8860B;"></i>
-                <span style="font-size: 17px;">${message}</span>
+                <i class="fas fa-check-circle" style="font-size: 24px; color: #B8860B;"></i>
+                <span style="font-size: 16px;">${message}</span>
             `;
             
             document.body.appendChild(notification);
@@ -561,24 +525,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     right: 20px;
                     background: linear-gradient(135deg, #0A0A0A, #2A2A2A);
                     color: white;
-                    padding: 20px 30px;
-                    border-radius: 15px;
+                    padding: 18px 28px;
+                    border-radius: 12px;
                     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
                     z-index: 9999;
                     font-weight: 700;
                     display: flex;
                     align-items: center;
-                    gap: 15px;
+                    gap: 12px;
                     transform: translateX(150%);
                     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    border-left: 5px solid #B8860B;
+                    border-left: 4px solid #B8860B;
                     backdrop-filter: blur(10px);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                 `;
                 
                 notification.innerHTML = `
-                    <i class="fas fa-check-circle" style="font-size: 24px; color: #B8860B;"></i>
-                    <span style="font-size: 16px;">${message}</span>
+                    <i class="fas fa-check-circle" style="font-size: 22px; color: #B8860B;"></i>
+                    <span style="font-size: 15px;">${message}</span>
                 `;
                 
                 document.body.appendChild(notification);
@@ -620,8 +584,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // إعداد البطاقات الأولية
     cards.forEach(card => {
         card.style.opacity = '0';
-        card.style.transform = 'translateY(40px)';
-        card.style.transition = 'opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     });
     
     // تفعيل تأثيرات البطاقات عند التحميل
@@ -660,39 +624,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // تهيئة اللغة الافتراضية
     changeLanguage('ar');
     
-    // تهيئة تاريخ التنقل
-    updateNavButtons();
-    
     // تحديث السنة في التذييل تلقائياً
     const currentYear = new Date().getFullYear();
     const yearElement = document.getElementById('currentYear');
     if (yearElement) {
         yearElement.textContent = currentYear;
-    }
-});
-
-// إضافة تأثيرات للوحة المفاتيح
-document.addEventListener('keydown', function(e) {
-    // سهم لليسار أو أعلى للصفحة السابقة
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        const prevBtn = document.getElementById('prevPage');
-        if (prevBtn && !prevBtn.disabled) {
-            prevBtn.click();
-        }
-    }
-    // سهم لليمين أو أسفل للصفحة التالية
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        const nextBtn = document.getElementById('nextPage');
-        if (nextBtn && !nextBtn.disabled) {
-            nextBtn.click();
-        }
-    }
-    
-    // مفتاح Escape لإغلاق القائمة المنسدلة
-    if (e.key === 'Escape') {
-        const languageMenu = document.getElementById('languageMenu');
-        if (languageMenu) {
-            languageMenu.classList.remove('active');
-        }
     }
 });
