@@ -17,7 +17,7 @@
     
     <!-- شريط التنقل المعدل -->
     <nav>
-        <a href="#" class="logo">
+        <a href="#" class="logo" data-page="home">
             <i class="fas fa-crown"></i>
             <span class="logo-text" data-key="logo">أسيل</span>
         </a>
@@ -48,16 +48,6 @@
             </div>
         </div>
     </nav>
-    
-    <!-- أزرار التنقل بين الصفحات -->
-    <div class="page-navigation">
-        <button class="nav-btn" id="prevPage" disabled>
-            <i class="fas fa-arrow-right"></i>
-        </button>
-        <button class="nav-btn" id="nextPage">
-            <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
     
     <!-- الصفحات -->
     <div class="page active" id="home">
@@ -125,12 +115,19 @@
     </div>
     
     <div class="page" id="profile">
+        <!-- زر العودة للرئيسية -->
+        <div class="back-to-home">
+            <a href="#" class="back-btn" data-page="home">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </a>
+        </div>
+        
         <div class="profile-header">
             <div class="profile-image">
                 <i class="fas fa-crown"></i>
             </div>
             <div class="profile-info">
-                <h1 data-key="profileName">أسيل أحمد</h1>
+                <h1 data-key="profileName">أسيل</h1>
                 <div class="title" data-key="profileTitle">مصممة جرافيكية ومطورة هويات بصرية</div>
                 <p data-key="profileDescription">أنا مصممة جرافيكية محترفة مع سنوات من الخبرة في إنشاء هويات بصرية متميزة وتصاميم إبداعية مبتكرة. أعمل على تحويل الأفكار المجردة إلى واقع بصري جذاب عبر استخدام أحدث أدوات التصميم والبرمجيات الاحترافية. لدي شغف عميق بخلق تجارب بصرية مميزة تلهم الجمهور وتحقق أهداف العلامات التجارية بشكل فعال.</p>
                 
@@ -169,6 +166,13 @@
     </div>
     
     <div class="page" id="projects">
+        <!-- زر العودة للرئيسية -->
+        <div class="back-to-home">
+            <a href="#" class="back-btn" data-page="home">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </a>
+        </div>
+        
         <h1 style="font-size: 3rem; margin-bottom: 25px; color: var(--dark-color); font-weight: 800;" data-key="projectsTitle">مشاريعي الإبداعية</h1>
         <p style="color: var(--gray-color); margin-bottom: 40px; font-size: 1.2rem; max-width: 800px;" data-key="projectsDescription">إليك مجموعة مختارة من أبرز المشاريع التصميمية التي قمت بتنفيذها مؤخراً، والتي تعكس تنوع مهاراتي وإبداعي في مجالات التصميم المختلفة.</p>
         
@@ -266,6 +270,13 @@
     </div>
     
     <div class="page" id="skills">
+        <!-- زر العودة للرئيسية -->
+        <div class="back-to-home">
+            <a href="#" class="back-btn" data-page="home">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </a>
+        </div>
+        
         <h1 style="font-size: 3rem; margin-bottom: 25px; color: var(--dark-color); font-weight: 800;" data-key="skillsTitle">مهاراتي المتقدمة</h1>
         <p style="color: var(--gray-color); margin-bottom: 40px; font-size: 1.2rem; max-width: 800px;" data-key="skillsDescription">مجموعة المهارات التقنية والإبداعية المتطورة التي أتمتع بها في مجال التصميم الجرافيكي والوسائط الرقمية، مع تركيز على الابتكار والتطوير المستمر.</p>
         
@@ -405,6 +416,13 @@
     </div>
     
     <div class="page" id="contact">
+        <!-- زر العودة للرئيسية -->
+        <div class="back-to-home">
+            <a href="#" class="back-btn" data-page="home">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </a>
+        </div>
+        
         <h1 style="font-size: 3rem; margin-bottom: 25px; color: var(--dark-color); font-weight: 800;" data-key="contactTitle">تواصل معي</h1>
         <p style="color: var(--gray-color); margin-bottom: 40px; font-size: 1.2rem; max-width: 800px;" data-key="contactDescription">أهلاً بك! لا تتردد في التواصل معي لمناقشة مشروعك التصميمي القادم، أو لأي استفسارات أخرى. سأكون سعيدة بمساعدتك وتحويل أفكارك إلى واقع إبداعي مميز.</p>
         
@@ -531,9 +549,7 @@
         <div class="footer-bottom">
             <p>&copy; <span id="currentYear"></span> أسيل. جميع الحقوق محفوظة.</p>
             <div class="footer-links">
-                <a href="#">سياسة الخصوصية</a> |
-                <a href="#">شروط الاستخدام</a> |
-                <a href="#">خريطة الموقع</a>
+                <a href="#">سياسة الخصوصية</a>
             </div>
         </div>
     </footer>
