@@ -1,4 +1,4 @@
-// script.js - ملف الجافاسكريبت الرئيسي - الإصدار الفني الإغريقي
+// script.js - ملف الجافاسكريبت الرئيسي - الإصدار الفني الفاخر
 
 // نظام الترجمة المحسّن والمصحح
 const translations = {
@@ -192,25 +192,25 @@ const translations = {
 
 // تهيئة الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    // تهيئة تأثير الجزيئات المتحركة باللونين الأسود والرمادي
+    // تهيئة تأثير الجزيئات المتحركة
     if (typeof particlesJS !== 'undefined') {
         particlesJS("particles-js", {
             particles: {
-                number: { value: 80, density: { enable: true, value_area: 1000 } },
-                color: { value: "#3A3A3A" },
+                number: { value: 90, density: { enable: true, value_area: 1200 } },
+                color: { value: "#2A2A2A" },
                 shape: { type: "circle" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
+                opacity: { value: 0.6, random: true },
+                size: { value: 4, random: true },
                 line_linked: {
                     enable: true,
-                    distance: 150,
-                    color: "#8B7355",
-                    opacity: 0.2,
-                    width: 1
+                    distance: 180,
+                    color: "#B8860B",
+                    opacity: 0.3,
+                    width: 1.5
                 },
                 move: {
                     enable: true,
-                    speed: 2,
+                    speed: 2.5,
                     direction: "none",
                     random: true,
                     straight: false,
@@ -364,6 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // تفعيل تأثيرات البطاقات
         setTimeout(checkCards, 300);
+        
+        // التمرير لأعلى الصفحة
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
     // وظيفة تحديث أزرار التنقل
@@ -437,6 +440,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // التنقل عبر روابط التذييل
+    document.querySelectorAll('footer a[data-page]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            changePage(pageId);
+        });
+    });
+    
     // أزرار التنقل بين الصفحات
     if (prevPageBtn) {
         prevPageBtn.addEventListener('click', goToPreviousPage);
@@ -484,24 +496,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: linear-gradient(135deg, #1A1A1A, #3A3A3A);
+                background: linear-gradient(135deg, #0A0A0A, #2A2A2A);
                 color: white;
-                padding: 20px 30px;
-                border-radius: 12px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                padding: 25px 35px;
+                border-radius: 15px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.3);
                 z-index: 9999;
-                font-weight: 600;
+                font-weight: 700;
                 display: flex;
                 align-items: center;
-                gap: 15px;
+                gap: 20px;
                 transform: translateX(150%);
-                transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                border-left: 4px solid #8B7355;
+                transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                border-left: 5px solid #B8860B;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
             `;
             
             notification.innerHTML = `
-                <i class="fas fa-check-circle" style="font-size: 24px; color: #8B7355;"></i>
-                <span>${message}</span>
+                <i class="fas fa-check-circle" style="font-size: 28px; color: #B8860B;"></i>
+                <span style="font-size: 17px;">${message}</span>
             `;
             
             document.body.appendChild(notification);
@@ -518,11 +532,75 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (notification.parentNode) {
                         notification.parentNode.removeChild(notification);
                     }
-                }, 500);
+                }, 600);
             }, 5000);
             
             // إعادة تعيين النموذج
             contactForm.reset();
+        });
+    }
+    
+    // نموذج النشرة البريدية
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            
+            if (email) {
+                // رسالة نجاح
+                const message = currentLang === 'ar' 
+                    ? 'شكراً لك على اشتراكك في النشرة البريدية!' 
+                    : 'Thank you for subscribing to our newsletter!';
+                
+                // إنشاء إشعار
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #0A0A0A, #2A2A2A);
+                    color: white;
+                    padding: 20px 30px;
+                    border-radius: 15px;
+                    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+                    z-index: 9999;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    transform: translateX(150%);
+                    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    border-left: 5px solid #B8860B;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                `;
+                
+                notification.innerHTML = `
+                    <i class="fas fa-check-circle" style="font-size: 24px; color: #B8860B;"></i>
+                    <span style="font-size: 16px;">${message}</span>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // عرض الإشعار
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 10);
+                
+                // إخفاء الإشعار بعد 5 ثواني
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(150%)';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 600);
+                }, 5000);
+                
+                // إعادة تعيين النموذج
+                this.reset();
+            }
         });
     }
     
@@ -542,8 +620,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // إعداد البطاقات الأولية
     cards.forEach(card => {
         card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        card.style.transform = 'translateY(40px)';
+        card.style.transition = 'opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     });
     
     // تفعيل تأثيرات البطاقات عند التحميل
@@ -587,13 +665,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // تحديث السنة في التذييل تلقائياً
     const currentYear = new Date().getFullYear();
-    const footer = document.querySelector('footer p');
-    if (footer) {
-        footer.textContent = `Aseel ${currentYear}`;
+    const yearElement = document.getElementById('currentYear');
+    if (yearElement) {
+        yearElement.textContent = currentYear;
     }
 });
 
-// إضافة تأثيرات للوحة المفاتيح (اختياري)
+// إضافة تأثيرات للوحة المفاتيح
 document.addEventListener('keydown', function(e) {
     // سهم لليسار أو أعلى للصفحة السابقة
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
@@ -607,6 +685,14 @@ document.addEventListener('keydown', function(e) {
         const nextBtn = document.getElementById('nextPage');
         if (nextBtn && !nextBtn.disabled) {
             nextBtn.click();
+        }
+    }
+    
+    // مفتاح Escape لإغلاق القائمة المنسدلة
+    if (e.key === 'Escape') {
+        const languageMenu = document.getElementById('languageMenu');
+        if (languageMenu) {
+            languageMenu.classList.remove('active');
         }
     }
 });
