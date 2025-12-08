@@ -1,4 +1,4 @@
-// script.js - ملف الجافاسكريبت الرئيسي - الإصدار المعدل
+// script.js - ملف الجافاسكريبت الرئيسي - الإصدار المعدل والمصحح
 
 // نظام الترجمة المحسّن والمصحح
 const translations = {
@@ -11,6 +11,7 @@ const translations = {
         navSkills: "المهارات",
         navContact: "اتصل بي",
         language: "English",
+        backToHome: "العودة للرئيسية",
         
         // الصفحة الرئيسية
         heroTitle: "مرحباً، أنا أسيل<br>مصممة جرافيكية إبداعية",
@@ -93,7 +94,23 @@ const translations = {
         formSubject: "الموضوع *",
         formMessage: "الرسالة *",
         formMessagePlaceholder: "أهلاً أسيل، أرغب في مناقشة مشروع تصميمي معك...",
-        formSubmit: "إرسال الرسالة"
+        formSubmit: "إرسال الرسالة",
+        
+        // التذييل
+        footerLogo: "أسيل",
+        footerDescription: "مصممة جرافيكية محترفة متخصصة في إنشاء هويات بصرية وتصاميم إبداعية مبتكرة. أسعى دائمًا للتميز والإبداع في كل مشروع.",
+        footerQuickLinks: "روابط سريعة",
+        footerServices: "خدماتي",
+        service1: "تصميم الهويات البصرية",
+        service2: "تصميم المواد المطبوعة",
+        service3: "تصميم واجهات المستخدم",
+        service4: "تصميم مواقع الويب",
+        service5: "الرسوم المتحركة والمؤثرات",
+        footerNewsletter: "اشترك في النشرة البريدية",
+        footerNewsletterDesc: "اشترك لتصلك آخر أعمالي ونصائح تصميمية حصرية.",
+        newsletterPlaceholder: "بريدك الإلكتروني",
+        footerCopyright: "© أسيل. جميع الحقوق محفوظة.",
+        footerPrivacy: "سياسة الخصوصية"
     },
     en: {
         // Navigation
@@ -104,6 +121,7 @@ const translations = {
         navSkills: "Skills",
         navContact: "Contact",
         language: "العربية",
+        backToHome: "Back to Home",
         
         // Home Page
         heroTitle: "Hello, I'm Aseel<br>Creative Graphic Designer",
@@ -186,7 +204,23 @@ const translations = {
         formSubject: "Subject *",
         formMessage: "Message *",
         formMessagePlaceholder: "Hello Aseel, I would like to discuss a design project with you...",
-        formSubmit: "Send Message"
+        formSubmit: "Send Message",
+        
+        // Footer
+        footerLogo: "Aseel",
+        footerDescription: "Professional graphic designer specialized in creating visual identities and innovative creative designs. I always strive for excellence and creativity in every project.",
+        footerQuickLinks: "Quick Links",
+        footerServices: "My Services",
+        service1: "Visual Identity Design",
+        service2: "Print Material Design",
+        service3: "User Interface Design",
+        service4: "Website Design",
+        service5: "Animation & Effects",
+        footerNewsletter: "Subscribe to Newsletter",
+        footerNewsletterDesc: "Subscribe to receive my latest works and exclusive design tips.",
+        newsletterPlaceholder: "Your Email",
+        footerCopyright: "© Aseel. All rights reserved.",
+        footerPrivacy: "Privacy Policy"
     }
 };
 
@@ -235,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // عناصر الصفحات
     const pages = document.querySelectorAll('.page');
     const navLinksElements = document.querySelectorAll('.nav-link');
+    const backToHomeFixed = document.getElementById('backToHomeFixed');
     
     // وظيفة تغيير اللغة
     function changeLanguage(lang) {
@@ -257,7 +292,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // تحديث النصوص
+        // تحديث جميع النصوص
+        updateAllTexts(lang);
+        
+        // تحديث اتجاه أيقونة زر العودة
+        updateBackButtonIcon();
+    }
+    
+    // وظيفة تحديث جميع النصوص
+    function updateAllTexts(lang) {
         const elements = document.querySelectorAll('[data-key]');
         elements.forEach(element => {
             const key = element.getAttribute('data-key');
@@ -268,6 +311,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else if (element.id === 'message') {
                         // نص افتراضي خاص لحقل الرسالة
                         element.textContent = translations[lang][key];
+                    }
+                } else if (element.hasAttribute('data-placeholder-key')) {
+                    const placeholderKey = element.getAttribute('data-placeholder-key');
+                    if (translations[lang][placeholderKey]) {
+                        element.setAttribute('placeholder', translations[lang][placeholderKey]);
                     }
                 } else if (element.tagName === 'BUTTON' && element.type === 'submit') {
                     element.innerHTML = `<i class="fas fa-paper-plane"></i> ${translations[lang][key]}`;
@@ -284,20 +332,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // تحديث زر تغيير اللغة
-        document.getElementById('languageToggle').querySelector('span').textContent = 
-            lang === 'ar' ? 'English' : 'العربية';
-        
-        // تحديث القائمة المنسدلة للغة
-        document.querySelectorAll('#languageMenu button').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-lang') === lang) {
-                btn.classList.add('active');
+        const languageToggle = document.getElementById('languageToggle');
+        if (languageToggle) {
+            const span = languageToggle.querySelector('span');
+            if (span) {
+                span.textContent = lang === 'ar' ? 'English' : 'العربية';
             }
-        });
-        
-        // تحديث اتجاه زر العودة
-        document.querySelectorAll('.back-btn i').forEach(icon => {
-            if (lang === 'ar') {
+        }
+    }
+    
+    // وظيفة تحديث أيقونة زر العودة
+    function updateBackButtonIcon() {
+        const backBtns = document.querySelectorAll('.back-btn-fixed i');
+        backBtns.forEach(icon => {
+            if (currentLang === 'ar') {
                 icon.className = 'fas fa-arrow-right';
             } else {
                 icon.className = 'fas fa-arrow-left';
@@ -323,10 +371,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById(pageId).classList.add('active');
         
         // إضافة النشاط للرابط المحدد
-        document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+        document.querySelectorAll(`[data-page="${pageId}"]`).forEach(link => {
+            if (link.classList.contains('nav-link')) {
+                link.classList.add('active');
+            }
+        });
         
         // تحديث المتغير الحالي
         currentPage = pageId;
+        
+        // إدارة زر العودة الثابت
+        if (backToHomeFixed) {
+            if (pageId === 'home') {
+                backToHomeFixed.style.display = 'none';
+            } else {
+                backToHomeFixed.style.display = 'block';
+            }
+        }
         
         // إغلاق القائمة على الأجهزة المحمولة
         if (window.innerWidth <= 768) {
@@ -358,6 +419,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // تبديل اللغة بنقرة واحدة
+    const languageToggle = document.getElementById('languageToggle');
+    
+    if (languageToggle) {
+        languageToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const newLang = currentLang === 'ar' ? 'en' : 'ar';
+            changeLanguage(newLang);
+        });
+    }
+    
     // التنقل عبر روابط القائمة
     navLinksElements.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -373,6 +445,16 @@ document.addEventListener('DOMContentLoaded', function() {
         logo.addEventListener('click', function(e) {
             e.preventDefault();
             changePage('home');
+        });
+    }
+    
+    // التنقل عبر زر العودة الثابت
+    if (backToHomeFixed) {
+        backToHomeFixed.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (e.target.closest('.back-btn-fixed')) {
+                changePage('home');
+            }
         });
     }
     
@@ -398,15 +480,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.summary-card .btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.stopPropagation(); // منع تنفيذ حدث النقر على البطاقة
-            e.preventDefault();
-            const pageId = this.getAttribute('data-page');
-            changePage(pageId);
-        });
-    });
-    
-    // التنقل عبر زر العودة للرئيسية
-    document.querySelectorAll('.back-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
             e.preventDefault();
             const pageId = this.getAttribute('data-page');
             changePage(pageId);
@@ -454,50 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ? 'شكراً لك على رسالتك! سأعود إليك في أقرب وقت ممكن.' 
                 : 'Thank you for your message! I will get back to you as soon as possible.';
             
-            // إنشاء إشعار
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #0A0A0A, #2A2A2A);
-                color: white;
-                padding: 20px 30px;
-                border-radius: 12px;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-                z-index: 9999;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                transform: translateX(150%);
-                transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                border-left: 4px solid #B8860B;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            `;
-            
-            notification.innerHTML = `
-                <i class="fas fa-check-circle" style="font-size: 24px; color: #B8860B;"></i>
-                <span style="font-size: 16px;">${message}</span>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // عرض الإشعار
-            setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-            }, 10);
-            
-            // إخفاء الإشعار بعد 5 ثواني
-            setTimeout(() => {
-                notification.style.transform = 'translateX(150%)';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 600);
-            }, 5000);
+            showNotification(message);
             
             // إعادة تعيين النموذج
             contactForm.reset();
@@ -517,55 +547,60 @@ document.addEventListener('DOMContentLoaded', function() {
                     ? 'شكراً لك على اشتراكك في النشرة البريدية!' 
                     : 'Thank you for subscribing to our newsletter!';
                 
-                // إنشاء إشعار
-                const notification = document.createElement('div');
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: linear-gradient(135deg, #0A0A0A, #2A2A2A);
-                    color: white;
-                    padding: 18px 28px;
-                    border-radius: 12px;
-                    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-                    z-index: 9999;
-                    font-weight: 700;
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    transform: translateX(150%);
-                    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    border-left: 4px solid #B8860B;
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                `;
-                
-                notification.innerHTML = `
-                    <i class="fas fa-check-circle" style="font-size: 22px; color: #B8860B;"></i>
-                    <span style="font-size: 15px;">${message}</span>
-                `;
-                
-                document.body.appendChild(notification);
-                
-                // عرض الإشعار
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(0)';
-                }, 10);
-                
-                // إخفاء الإشعار بعد 5 ثواني
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(150%)';
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.parentNode.removeChild(notification);
-                        }
-                    }, 600);
-                }, 5000);
+                showNotification(message);
                 
                 // إعادة تعيين النموذج
                 this.reset();
             }
         });
+    }
+    
+    // وظيفة عرض الإشعارات
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #0A0A0A, #2A2A2A);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            z-index: 9999;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(150%);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-left: 4px solid #B8860B;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        `;
+        
+        notification.innerHTML = `
+            <i class="fas fa-check-circle" style="font-size: 24px; color: #B8860B;"></i>
+            <span style="font-size: 16px;">${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // عرض الإشعار
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 10);
+        
+        // إخفاء الإشعار بعد 5 ثواني
+        setTimeout(() => {
+            notification.style.transform = 'translateX(150%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 600);
+        }, 5000);
     }
     
     // إضافة تأثيرات للبطاقات عند التمرير
@@ -594,33 +629,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // تفعيل تأثيرات البطاقات عند التمرير
     window.addEventListener('scroll', checkCards);
     
-    // تبديل اللغة - القائمة المنسدلة
-    const languageToggle = document.getElementById('languageToggle');
-    const languageMenu = document.getElementById('languageMenu');
-    
-    if (languageToggle) {
-        languageToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            languageMenu.classList.toggle('active');
-        });
-    }
-    
-    // اختيار لغة من القائمة
-    document.querySelectorAll('#languageMenu button').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const lang = this.getAttribute('data-lang');
-            changeLanguage(lang);
-            languageMenu.classList.remove('active');
-        });
-    });
-    
-    // إغلاق القائمة عند النقر خارجها
-    document.addEventListener('click', function(e) {
-        if (languageToggle && languageMenu && !languageToggle.contains(e.target) && !languageMenu.contains(e.target)) {
-            languageMenu.classList.remove('active');
-        }
-    });
-    
     // تهيئة اللغة الافتراضية
     changeLanguage('ar');
     
@@ -629,5 +637,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearElement = document.getElementById('currentYear');
     if (yearElement) {
         yearElement.textContent = currentYear;
+    }
+    
+    // إخفاء زر العودة في الصفحة الرئيسية
+    if (backToHomeFixed && currentPage === 'home') {
+        backToHomeFixed.style.display = 'none';
     }
 });
