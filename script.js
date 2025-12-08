@@ -10,7 +10,7 @@ const translations = {
         navProjects: "المشاريع",
         navSkills: "المهارات",
         navContact: "اتصل بي",
-        language: "English",
+        language: "EN",
         backToHome: "العودة للرئيسية",
         
         // الصفحة الرئيسية
@@ -120,7 +120,7 @@ const translations = {
         navProjects: "Projects",
         navSkills: "Skills",
         navContact: "Contact",
-        language: "العربية",
+        language: "AR",
         backToHome: "Back to Home",
         
         // Home Page
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (languageToggle) {
             const span = languageToggle.querySelector('span');
             if (span) {
-                span.textContent = lang === 'ar' ? 'English' : 'العربية';
+                span.textContent = lang === 'ar' ? 'EN' : 'AR';
             }
         }
     }
